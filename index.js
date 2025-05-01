@@ -10,6 +10,11 @@ app.get("/", function (req, res) {
 
 //Налаштовуємо обробник шаблонів
 app.set("view engine", "ejs");
+
+app.post('/addnewtask', function (req, res) {
+    res.render('index')
+});
+
 //Налаштовуємо сервер для прослуховування порту 3000
 app.listen(3000, function () {
     console.log("Сервер працює на порту 3000!");
