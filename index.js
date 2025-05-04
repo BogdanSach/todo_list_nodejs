@@ -4,12 +4,16 @@ var express = require("express");
 var bodyParser = require("body-parser");
 //Викликаємо express
 var app = express();
+//Надаємо доступ до папки public
+app.use(express.static("public"));
 //Вмикаємо body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 //Налаштовуємо обробник шаблонів
 app.set("view engine", "ejs");
 //Визначаємо початковий масив доданих завдань
 var task = ["Опанувати JavaScript", "Опанувати Node.js"];
+//Визначаємо початковий масив виконаних завдань
+var complete = ["Опанувати HTML та CSS", "Опанувати Git та GitHub"];
 //Визначаємо маршрут публікації для додавання нового завдання
 //в масив доданих завдань
 app.post("/addnewtask", function (req, res) {
@@ -19,19 +23,6 @@ app.post("/addnewtask", function (req, res) {
     //Повертаємося до маршруту root(/)
     res.redirect("/");
 });
-//Відображаємо index.ejs, додані і виконані завдання
-app.get("/", function (req, res) {
-    res.render("index", { task: task, complete: complete });
-});
-
-//Налаштовуємо сервер для прослуховування порту 3000
-app.listen(3000, function () {
-    console.log("Сервер працює на порту 3000!");
-});
-
-//Визначаємо початковий масив виконаних завдань
-var complete = ["Опанувати HTML та CSS", "Опанувати Git та GitHub"];
-
 //Визначаємо маршрут публікації для переміщення нового відміченого як виконане
 //завдання у масив виконаних завдань
 app.post("/movetocompletetask", function (req, res) {
@@ -51,4 +42,12 @@ app.post("/movetocompletetask", function (req, res) {
     }
     //Повертаємося до маршруту root(/)
     res.redirect("/");
+});
+//Відображаємо index.ejs, додані і виконані завдання
+app.get("/", function (req, res) {
+    res.render("index", { task: task, complete: complete });
+});
+//Налаштовуємо сервер для прослуховування порту 3000
+app.listen(3000, function () {
+    console.log("Сервер працює на порту 3000!");
 });
